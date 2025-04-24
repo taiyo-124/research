@@ -39,6 +39,12 @@
     \item B4輪講, ゼミのためスタートが遅くなった. M2の先輩方が周りで何かに悲観している$\dots$
     \item 昨日見つけた仕様書の通りにプログラムを作成. 正しそうなppmをターミナルにて確認(500ppm)ぐらい.
     \item 結論: 英語の勉強をしよう.
+    \item 参考資料
+    \begin{itemize}
+        \item Modbusプロトコル概説書: \url{https://www.mgco.jp/mssjapanese/PDF/NM/kaisetsu/nmmodbus.pdf}
+        \item Modbus on Senseair Sunrise: \url{https://senseair.jp/wp-content/uploads/2019/01/TDE5514.pdf}
+        \item Senseair Sunrise Product Specification: \url{https://rmtplusstoragesenseair.blob.core.windows.net/docs/Dev/publicerat/PSP12440.pdf}
+    \end{itemize}
 \end{itemize}
 
 
@@ -47,15 +53,25 @@
     \item 今日は研究室に誰もいなかった. 昨日悲観していた先輩方は無事だろうか$\dots$
     \item Lora通信モジュールをRasPiに取り付けて通信したい.(もともとの目的)
     \begin{itemize}
-        \item 通信モジュールをishisakiさんの所から拝借. E220-900T22S: USBでつなぐタイプ
+        \item 通信モジュールをishisakiさんの所から拝借. USBE220-900T22S(黒): USBでつなぐタイプ
         \item ポートの設定などはだいぶ慣れてきた. 仕様書とにらめっこを開始. 今日は勝てる気がする
         \item 仕様書によるとこのモジュールには大きく4つのModeがあるらしい.(手動切り替え) まずMode3にてデバイスのアドレスやらLoraのパラメータやらを設定する必要がある. \\ 
         RasPi側のシリアル通信にて正しく設定できたことを確認した.(requestとresponseにて) 受信側は研究室のPCを用いた(こちらも同様に設定) \\
         送信用コードを用意("Hello"を送信するだけの簡単なもの) 受信用コードも用意→通信を行うと受信側でHelloの文字を観測.
     \end{itemize}
     \item 結論: もう怖いものは何もない.
+    \item 参考資料
+    \begin{itemize}
+        \item Lora通信モジュール使い方, 特にUSB型(黒)専用の説明: \url{https://flint.works/p/flint-lora-usb/}
+        \item Lora通信のデータシート(パラメータやコマンド説明など): \url{https://dragon-torch.tech/wp-content/uploads/2024/09/DS240911JA_E220-900T22Sv1_Rev2.1.1.pdf}
+        \item 同じくデータシート(簡潔): \url{https://dragon-torch.tech/wp-content/uploads/2022/08/data_sheet.pdf}
+    \end{itemize}
 \end{itemize}
 
+\section{2025/04/24}
+\begin{itemize}
+    \item 今日も研究室に誰もいない. 「工学部のすべて」の写真撮影を終えた後に作業開始.
+    \item 
 
 
 \end{document}
