@@ -3,31 +3,6 @@ import time
 
 
 
-# def main():
-#     # ポート設定
-#     ser = serial.Serial(
-#         port='/dev/ttyUSB0',
-#         baudrate=9600,
-#         bytesize=serial.EIGHTBITS,
-#         parity=serial.PARITY_NONE,
-#         stopbits=serial.STOPBITS_ONE,
-#         timeout=1
-#     )
-
-#     # Hello Worldを送信: 2byte(宛先デバイスアドレス) 1byte(待受周波数チャネル)
-#     payload = bytes([0x00, 0x00, 0x00, 0x68, 0x65, 0x6C, 0x6C, 0x6F])
-
-#     ser.write(payload)
-#     ser.flush()
-#     print("SENDED")
-#     time.sleep(1)
-#     return 
-
-# while True:
-#     main()
-
-
-
 def main():
 
     # CO2濃度をセンサから取得
@@ -47,12 +22,13 @@ def main():
     ser_sense.write(get_command)
     time.sleep(0.1)
 
-    # response[0x68, 0x04, bytecount, Register value(Up), Register value(Down), CRC, CRC]
+    # response[0x68(省略), 0x04, bytecount, Register value(Up), Register value(Down), CRC, CRC]
     response_co2 = ser_sense.read(7)
+    # print(response_co2)
     high = response_co2[3]
     low = response_co2[4]
     co2 = (high << 8) | low
-    print(f"CO$_2$濃度: {co2}ppm")
+    print(f"CO2濃度: {co2}ppm")
     
     ser_sense.flush()
 

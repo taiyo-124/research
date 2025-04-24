@@ -3,7 +3,7 @@ import time
 
 def main():
     # ポート設定
-    ser = serial.Serial(
+    ser_receive = serial.Serial(
         port='/dev/ttyUSB0',
         baudrate=9600,
         bytesize=serial.EIGHTBITS,
@@ -12,12 +12,15 @@ def main():
         timeout=1
     )
 
-    data_received = ser.read(8)
+    data_received = ser_receive.read(5)
     print(len(data_received))
-    print(data_received[0:5])
-    ser.flush()
+    ser_receive.flush()
     time.sleep(1)
-    return
+    high = data_received[3]
+    low = data_received[4]
+    return high, low
 
 while True:
-    main()
+    high, low = main()
+    co2 = (high << 8) | low
+    print(f"CO₂ 濃度: {co2} ppm")
