@@ -1,0 +1,61 @@
+\documentclass[11pt,a4paper,uplatex]{jsarticle}
+\usepackage{url}
+
+\begin{document}
+
+\section{概要}
+\begin{itemize}
+    \item 研究日誌: 研究の進捗等のメモ
+\end{itemize}
+
+\section{2025/04/18}
+\begin{itemize}
+    \item 初めてRaspberryPiを触る. なにがなんだかわからないがとりあえずishisakiさんを頼る.
+
+    \item OSの入ったSDカードがなかったので, SDカードリーダを使って自分のPCからRaspi用のOSをダウンロード.
+    \item その後, MHZ19C(CO$_2$濃度センサ)とのシリアル通信を試す. \url{}
+    \begin{itemize}
+        \item PWM: Chatgptにpythonプログラムの雛形を作ってもらい. 詳細部を調整してシリアル通信ができた.
+        \item UART: 苦戦した. シリアル通信を行うためには, ポートでセンサなどのデバイスを認識する必要があるのだが, その部分の設定がうまくいかない. \\
+        結局, ishisakiさんが解決してくださった. 不具合の原因は, デフォルトで設定されていたポートのGPIOがLinuxターミナルですでに使われているのに使おうとしていたため. 
+        ターミナルから他のポートを有効化してそのポートを設定することで解決.
+    \end{itemize}
+    \item 結論: ishisakiさん is God.
+\end{itemize}
+
+
+\section{2025/04/21}
+\begin{itemize}
+    \item 他のCO$_2$濃度センサを試すことにした.(筒井先生おすすめのセンサ??) Senseair Sunriseというもの. \url{}
+    \item またしても大苦戦. 配線でつなぐとこまではQiitaの記事などを参考に完了.(Lチカで随時確認)
+    \item SenseairはModbusという通信プロトコルでUARTを行うそうだが, Modbusの仕様書が英語で理解に苦しむ.
+    \item 遅くなったので帰宅. 帰宅途中の電車で日本語のModbus仕様書を発見. 仕様書のコマンド部分を見ると何も難しくなさそう. 明日研究室で試そう.
+    \item 結論: 英語はクソ
+\end{itemize}
+
+
+\section{2025/04/22}
+\begin{itemize}
+    \item B4輪講, ゼミのためスタートが遅くなった. M2の先輩方が周りで何かに悲観している$\dots$
+    \item 昨日見つけた仕様書の通りにプログラムを作成. 正しそうなppmをターミナルにて確認(500ppm)ぐらい.
+    \item 結論: 英語の勉強をしよう.
+\end{itemize}
+
+
+\section{2025/04/23}
+\begin{itemize}
+    \item 今日は研究室に誰もいなかった. 昨日悲観していた先輩方は無事だろうか$\dots$
+    \item Lora通信モジュールをRasPiに取り付けて通信したい.(もともとの目的)
+    \begin{itemize}
+        \item 通信モジュールをishisakiさんの所から拝借. E220-900T22S: USBでつなぐタイプ
+        \item ポートの設定などはだいぶ慣れてきた. 仕様書とにらめっこを開始. 今日は勝てる気がする
+        \item 仕様書によるとこのモジュールには大きく4つのModeがあるらしい.(手動切り替え) まずMode3にてデバイスのアドレスやらLoraのパラメータやらを設定する必要がある. \\ 
+        RasPi側のシリアル通信にて正しく設定できたことを確認した.(requestとresponseにて) 受信側は研究室のPCを用いた(こちらも同様に設定) \\
+        送信用コードを用意("Hello"を送信するだけの簡単なもの) 受信用コードも用意→通信を行うと受信側でHelloの文字を観測.
+    \end{itemize}
+    \item 結論: もう怖いものは何もない.
+
+
+
+
+\end{document}
