@@ -41,5 +41,7 @@ def send_GPIO(ser_send, high, low):
 
 while True:
     high, low = get_CO2.sense(ser_sense)
+    co2 = (high << 8) | low
+    print(f"CO2濃度: {co2}ppm")
     send_GPIO(ser_send, high, low)
     time.sleep(16)

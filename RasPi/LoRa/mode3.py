@@ -15,7 +15,3 @@ GPIO.setup(M1, GPIO.OUT)
 GPIO.output(M0, GPIO.HIGH) 
 GPIO.output(M1, GPIO.HIGH)
 
-
-# GPIOを解放
-GPIO.cleanup(M0)
-GPIO.cleanup(M1)

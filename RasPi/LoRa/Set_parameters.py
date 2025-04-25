@@ -7,7 +7,7 @@ import time
 def config():
     # ポート設定
     ser = serial.Serial(
-        port='/dev/ttyUSB0',
+        port='/dev/ttyAMA2',
         baudrate=9600,
         bytesize=serial.EIGHTBITS,
         parity=serial.PARITY_NONE,
@@ -41,7 +41,7 @@ def config():
 def check():
     # ポート設定
     ser = serial.Serial(
-        port='/dev/ttyUSB0',
+        port='/dev/ttyAMA2',
         baudrate=9600,
         bytesize=serial.EIGHTBITS,
         parity=serial.PARITY_NONE,
