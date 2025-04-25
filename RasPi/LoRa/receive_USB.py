@@ -1,3 +1,9 @@
+"""
+USBタイプのLora通信モジュールを用いる際のコード
+
+"""
+
+
 import serial
 import time
 
