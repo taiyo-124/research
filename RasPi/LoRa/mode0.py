@@ -16,6 +16,3 @@ GPIO.output(M0, GPIO.LOW)
 GPIO.output(M1, GPIO.LOW)
 
 
-# # GPIOを解放
-# GPIO.cleanup(M0)
-# GPIO.cleanup(M1)
