@@ -8,7 +8,7 @@ const int COMMUNICATION_ERROR = -1;
 const int ILLEGAL_FUNCTION = 1;
 const int ILLEGAL_DATA_ADDRESS = 2;
 const int ILLEGAL_DATA_VALUE = 3;
-const uint16_t ERROR_STATUS = 0x0000;
+const uint16_t ERROR_STATUS = 0x0003;
 const uint16_t MEASUREMENT_MODE = 0x000A;
 const uint16_t CONTINUOUS = 0x0000;
 const uint16_t SINGLE = 0x0001;
@@ -17,6 +17,8 @@ uint8_t request[256];
 uint8_t response[256];
 uint16_t values[256];
 char device[12];
+
+#define DEBUG_STREAM SerialUSB
 
 uint16_t _generate_crc(uint8_t pdu[], int len) {
   uint16_t crc = 0xFFFF;
@@ -53,7 +55,7 @@ int _handler(uint8_t pdu[], uint8_t funCode, int len) {
     uint8_t crcLo = crc & 0xFF;
 
     if (crcLo != pdu[len - 2] || crcHi != pdu[len - 1]) {
-      //   DEBUG_STREAM.println("_handler comm error pdu");
+         DEBUG_STREAM.println("_handler comm error pdu");
       return COMMUNICATION_ERROR;
     }
 
@@ -61,7 +63,7 @@ int _handler(uint8_t pdu[], uint8_t funCode, int len) {
     if (pdu[1] == exceptionFunCode) {
       switch (pdu[2]) {
       case ILLEGAL_FUNCTION:
-        // DEBUG_STREAM.println("_handler illegal function");
+         DEBUG_STREAM.println("_handler illegal function");
         error = -ILLEGAL_FUNCTION;
         break;
 
@@ -74,13 +76,13 @@ int _handler(uint8_t pdu[], uint8_t funCode, int len) {
         break;
 
       default:
-        // DEBUG_STREAM.println("_handler comm error switch");
+         DEBUG_STREAM.println("_handler comm error switch");
         error = COMMUNICATION_ERROR;
         break;
       }
     }
   } else {
-    // DEBUG_STREAM.println("_handler comm error");
+     DEBUG_STREAM.println("_handler comm error");
     error = COMMUNICATION_ERROR;
   }
   return error;
@@ -97,11 +99,11 @@ int modbus_read_response(int waitBytes, uint8_t funCode) {
   while ((available_bytes = Serial.available()) == 0) {
     unsigned long timeout = (unsigned long)((long)millis() - (long)byteTime);
     if (WAIT_MS < timeout) {
-      //   DEBUG_STREAM.println("Here");
+         DEBUG_STREAM.println("Here");
       return COMMUNICATION_ERROR;
     }
   }
-  //   DEBUG_STREAM.println("After Here");
+//     DEBUG_STREAM.println("After Here");
 
   byteTime = millis();
 
@@ -124,7 +126,6 @@ int modbus_read_response(int waitBytes, uint8_t funCode) {
   /* Check response for exceptions */
   error = _handler(response, funCode, available_bytes);
 
-  //   DEBUG_STREAM.println(error);
   return ((error == 0) ? available_bytes : error);
 }
 int read_device_id(uint8_t comAddr, uint8_t objId) {
@@ -241,6 +242,9 @@ int read_input_registers(uint8_t comAddr, uint16_t regAddr, uint16_t numReg) {
   /* Wait for response */
   error = modbus_read_response(waitBytes, funCode);
 
+//  DEBUG_STREAM.print("After modbus_read_response: ");
+//  DEBUG_STREAM.println(error);
+
   /* If no error were encountered, combine the bytes containing the requested
    * values into words */
   if (error > 0) {
@@ -263,20 +267,21 @@ uint16_t read_sensor_measurements() {
   const uint8_t target = SUNRISE_ADDR;
   /* Function variables */
   int error;
-  uint16_t numReg = 0x0004;
+  uint16_t numReg = 0x0001;
 
   /* Read values */
   if ((error = read_input_registers(target, ERROR_STATUS, numReg)) != 0) {
     // DEBUG_STREAM.print("EXCEPTION! Failed to read input registers. Error
-    // code: "); DEBUG_STREAM.println(error);
+    // code: "); 
+//    DEBUG_STREAM.println(error);
   } else {
     /* Read CO2 concentration */
-    // DEBUG_STREAM.print("CO2: ");
-    // DEBUG_STREAM.print(values[3]);
-    // DEBUG_STREAM.println(" ppm");
+//     DEBUG_STREAM.print("CO2: ");
+     DEBUG_STREAM.print(values[0]);
+     DEBUG_STREAM.println(" ppm");
     /* Read error status */
-    // DEBUG_STREAM.print("Error Status: 0x");
-    // DEBUG_STREAM.println(values[0], HEX);
+//     DEBUG_STREAM.print("Error Status: 0x");
+//     DEBUG_STREAM.println(values[0], HEX);
   }
-  return values[3];
+  return values[0];
 }

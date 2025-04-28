@@ -8,13 +8,13 @@
 #define WDT_PER_SEC (8 * SEC1)
 
 // variables
-#define LOOP_PER_MILLI_SEC MIN10
+#define LOOP_PER_MILLI_SEC SEC10
 #define SAVE_SD false
 
 #define SAVE_GPS_LTE false
 
-#define USE_WDT true
-#define USE_DEEP_SLEEP true
+#define USE_WDT false
+#define USE_DEEP_SLEEP false
 /*
 How to use WDT and DEEP_SLEEP
 - !USE_WDT
@@ -27,7 +27,7 @@ How to use WDT and DEEP_SLEEP
 //#include <Adafruit_TinyUSB.h> // for Serial
 //#include <bluefruit.h>
 // variables but as constants
-#define SAVE_CO2 false
+#define SAVE_CO2 true
 #define GET_GPS false
 
 /*
@@ -69,6 +69,8 @@ template <class T> String anyToString(T value) { return String(value); }
 void setup() {
   pinMode(LED_GREEN, OUTPUT);
 
+  DEBUG_STREAM.begin(SERIAL_BPS);
+  DEBUG_STREAM.println("DEBUG_STREAM initialized");
   Serial.begin(SERIAL_BPS);
 
   if (SAVE_CO2) {
@@ -130,7 +132,6 @@ void setup() {
 }
 
 void loop() {
-  DEBUG_STREAM.println("1");
   char outputBuf[256];
 
   if (SAVE_CO2) {
