@@ -9,8 +9,8 @@ import time
 
 # 引数でポートを指定するように変更
 def main(ser_receive):
-    data_received = ser_receive.read(3)
-    # print(data_received)
+    data_received = ser_receive.read(200)
+    print(data_received)
 
     time.sleep(1)
     if len(data_received) != 0:
