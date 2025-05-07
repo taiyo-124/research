@@ -16,8 +16,8 @@ import time
 # params: パラメータの具体値
 
 params = {
-    "address_high": 0xFF,
-    "address_low": 0xFF,
+    "address_high": 0x00,
+    "address_low": 0x00,
     "BPS": 0x61,
     "options_main": 0x01,
     "channel": 0x00,
