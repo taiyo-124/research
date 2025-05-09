@@ -8,7 +8,7 @@ import time
 # 0x08: 8アドレスに書き込み(後ろに8コマンド続く)
 # 0x00 0x00: Module Address (default) ⇛ FFFF(ブロードキャストアドレス)に設定
 # 0x61: BW, SFを設定(0110 0001)
-# 0x21; パケット長と送信出力電力(001, reserved000, 01)
+# 0xC1; パケット長と送信出力電力(110, reserved000, 01)
 # 0x00: 周波数チャネルを0に設定
 # 0xc5: 1100 0101→RSSIバイト有効化, 固定送信モード, reserved(3bit), WORサイクルを3000msに設定
 # 0x00 0x00: 暗号キーを0に設定
@@ -16,10 +16,10 @@ import time
 # params: パラメータの具体値
 
 params = {
-    "address_high": 0xFF,
-    "address_low": 0xFF,
+    "address_high": 0x00,
+    "address_low": 0x00,
     "BPS": 0x61,
-    "options_main": 0x01,
+    "options_main": 0xC1,
     "channel": 0x00,
     "options_sub": 0xC5,
     "crypt_high": 0x00,
@@ -27,8 +27,8 @@ params = {
 }
 
 def make_config_command(
-    address_high=0xFF,
-    address_low=0xFF,
+    address_high=0x00,
+    address_low=0x00,
     BPS=0x61,
     options_main=0x01,
     channel=0x00,

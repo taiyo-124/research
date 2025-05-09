@@ -58,4 +58,4 @@ def main():
 while True:
     main()
     # CO2センサのデフォルトセンシング間隔が16sなので16秒待つ
-    time.sleep(16)
+    time.sleep(60)

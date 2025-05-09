@@ -6,19 +6,16 @@ USBタイプのLora通信モジュールを用いる際のコード
 
 import serial
 import time
+import struct
+from datetime import datetime
 
 # 引数でポートを指定するように変更
-def main(ser_receive):
-    data_received = ser_receive.read(200)
-    print(data_received)
+def main(ser_receive, bytes_available):
 
+    received_data = ser_receive.read(bytes_available)
     time.sleep(1)
-    if len(data_received) != 0:
-        high = data_received[0]
-        low = data_received[1]
-        co2 = (high << 8) | low
-        ser_receive.flush()
-        return co2
+    if len(received_data) != 0:
+        return received_data
     else:
         return None
         
@@ -32,9 +29,38 @@ ser_receive = serial.Serial(
 )
 
 while True:
-    receive_co2 = main(ser_receive)
-    if receive_co2 is None:
+    # 受信データがあるかどうかを確認
+    if ser_receive.in_waiting == 0:
         continue
     else:
-        print(f"CO₂ 濃度: {receive_co2} ppm")
+        time.sleep(1) # 完全な受信データを取得するために少し待つ
 
+        # 時刻取得
+        now = datetime.now()
+        print(now)
+
+        bytes_available = ser_receive.in_waiting
+        print(f"受信バイト: {bytes_available}")
+        received_data = main(ser_receive, bytes_available)
+
+        # nullバイトを除去
+        clean_data = received_data.replace(b'\x00', b'')
+        print(f"有効バイト: {len(clean_data)}") # clean_dataは前から順に: 温度(4byte), 湿度(4byte), 気圧(4byte), 最終バイトはRSSI
+
+        # 温度に戻す処理
+        temperature = struct.unpack('<f', clean_data[:4])[0]
+        print(f"気温: {temperature:.2f}[℃]")
+
+        # 湿度に戻す処理
+        humid = struct.unpack('<f', clean_data[4:8])[0]
+        print(f"湿度: {humid:.2f}[%]")
+
+        # 気圧に戻す処理
+        pressure = struct.unpack('<f', clean_data[8:12])[0]
+        print(f"気圧: {pressure:.2f}[kPa]")
+
+        # RSSI
+        RSSI = - (256 - clean_data[-1])
+        print(f"RSSI: {RSSI}[dBm]")
+
+        print("=========================================================")

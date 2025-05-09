@@ -7,7 +7,7 @@ import time
 def config():
     # ポート設定
     ser = serial.Serial(
-        port='/dev/ttyUSB0',
+        port='/dev/ttyAMA2',
         baudrate=9600,
         bytesize=serial.EIGHTBITS,
         parity=serial.PARITY_NONE,
@@ -20,7 +20,7 @@ def config():
 
     # コマンドフォーマット[c0, staring address, length, parameters]
 
-    request = bytearray([0XC0, 0X00, 0X08, 0X00, 0X00, 0X70, 0X01, 0X00, 0XC5, 0X00, 0X00])
+    request = bytearray([0XC0, 0X00, 0X08, 0X00, 0X00, 0X61, 0X01, 0X00, 0XC5, 0X00, 0X00])
     # 0xc0: レジスタ値の書き込みコマンド
     # 0x00: 開始アドレス
     # 0x08: 8アドレスに書き込み(後ろに8コマンド続く)
@@ -41,7 +41,7 @@ def config():
 def check():
     # ポート設定
     ser = serial.Serial(
-        port='/dev/ttyUSB0',
+        port='/dev/ttyAMA2',
         baudrate=9600,
         bytesize=serial.EIGHTBITS,
         parity=serial.PARITY_NONE,
