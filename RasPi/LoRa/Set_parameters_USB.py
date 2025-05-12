@@ -18,8 +18,8 @@ import time
 params = {
     "address_high": 0x00,
     "address_low": 0x00,
-    "BPS": 0x61,
-    "options_main": 0xC1,
+    "BPS": 0x62,
+    "options_main": 0x01,
     "channel": 0x00,
     "options_sub": 0xC5,
     "crypt_high": 0x00,
@@ -27,14 +27,14 @@ params = {
 }
 
 def make_config_command(
-    address_high=0x00,
-    address_low=0x00,
-    BPS=0x61,
-    options_main=0x01,
-    channel=0x00,
-    options_sub=0xC5,
-    crypt_high=0x00,
-    crypt_low=0x00
+    address_high,
+    address_low,
+    BPS,
+    options_main,
+    channel,
+    options_sub,
+    crypt_high,
+    crypt_low
 ):
     return bytearray([
         0xC0,
