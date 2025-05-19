@@ -18,8 +18,8 @@ const uint8_t StartAddr = 0x00;
 const uint8_t NumAddr = 0x08; //後ろに8コマンド続く
 const uint8_t ModuleAddHi = 0x00; // モジュールアドレス上位
 const uint8_t ModuleAddLo = 0x00; // モジュールアドレス下位
-const uint8_t BwSf = 0x61; // 帯域と拡散率それぞれ4bitで定める(詳細はdatasheet参照)
-const uint8_t PacketDbm = 0xC3; //パケット長と送信電力
+const uint8_t BwSf = 0x62; // 帯域と拡散率それぞれ4bitで定める(詳細はdatasheet参照)
+const uint8_t PacketDbm = 0x01; //パケット長と送信電力
 const uint8_t ChFreq = 0x00; //周波数チャネル 0
 const uint8_t OtherSetting = 0xC5; // RSSI有効化, 固定送信モード, reserved, WOR=3000msに設定
 const uint8_t SecretCodeHi = 0x00;

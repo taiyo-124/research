@@ -16,6 +16,7 @@ uint8_t payload[32];
 byte temp_bytes[4];
 byte humid_bytes[4];
 byte pressure_bytes[4];
+byte vinput_bytes[4];
 
 
 
@@ -48,6 +49,16 @@ void setup(){
 
 void loop(){
 
+  int voltage = analogRead(A0);
+  Serial.print("analogRead: ");
+  Serial.println(voltage);
+  
+  float vinput = 3300.0*voltage/512;
+  Serial.print("Voltage: ");
+  Serial.print(vinput);
+  Serial.println("mV");
+  
+
   bool check_1 = mode0();
 
   Serial.println("Mode 0 done");
@@ -70,6 +81,7 @@ void loop(){
   float2bytes(temp, temp_bytes);
   float2bytes(humid, humid_bytes);
   float2bytes(pressure, pressure_bytes);
+  float2bytes(vinput, vinput_bytes);
 
   payload[0] = 0x00;
   payload[1] = 0x00;
@@ -78,7 +90,7 @@ void loop(){
     payload[3+i] = temp_bytes[i];
     payload[7+i] = humid_bytes[i];
     payload[11+i] = pressure_bytes[i];
-    Serial.println(payload[3+i]);
+    payload[15+i] = vinput_bytes[i];
   }
   
   Serial1.write(payload, sizeof(payload));
