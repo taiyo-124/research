@@ -10,14 +10,18 @@ import struct
 from datetime import datetime
 
 # 引数でポートを指定するように変更
-def main(ser_receive, bytes_available):
-
-    received_data = ser_receive.read(bytes_available)
+def reading_ser(ser_receive):
+    while(ser_receive.in_waiting == 0):
+        pass
     time.sleep(1)
+    
+    bytes_available = ser_receive.in_waiting
+    received_data = ser_receive.read(bytes_available)
+    print(f"受信バイト: {bytes_available}")
     if len(received_data) != 0:
         return received_data
     else:
-        return None, None
+        return None
         
 ser_receive = serial.Serial(
     port='/dev/ttyUSB0',
@@ -40,9 +44,8 @@ while True:
         now = datetime.now()
         print(now)
 
-        bytes_available = ser_receive.in_waiting
-        print(f"受信バイト: {bytes_available}")
-        received_data = main(ser_receive, bytes_available)
+        # データ読み込み
+        received_data = reading_ser(ser_receive)
 
         # nullバイトを除去
         clean_data = received_data.replace(b'\x00', b'')

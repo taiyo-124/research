@@ -36,7 +36,7 @@ def main(ser):
             continue
         
         # nullバイト除去
-        print(f"受信バイト: {len(received_data)}") # clean_dataは前から順に: 温度(4byte), 湿度(4byte), 気圧(4byte), 最終バイトはRSSI (後々変更される可能性大)
+        print(f"受信バイト: {len(received_data)}") # received_dataは前から順に: 温度(4byte), 湿度(4byte), 気圧(4byte), 電圧(4byte) 最終バイトはRSSI (後々変更される可能性大)
 
         if len(received_data) < 17:
             print(f"データが不正です")
@@ -86,7 +86,6 @@ def reading_ser(ser_receive):
     
     bytes_available = ser_receive.in_waiting
     received_data = ser_receive.read(bytes_available)
-    print(f"受信バイト: {bytes_available}")
     if len(received_data) != 0:
         return received_data
     else:
