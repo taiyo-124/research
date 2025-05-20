@@ -66,7 +66,7 @@ def main(ser):
         # 日時取得
         date = now.strftime("%Y-%m-%d")
         time = now.strftime("%H:%M:%S")
-        csv_path = f"~/Data/LoRa/{date}.csv"
+        csv_path = f"~/Data/RawData/{date}.csv"
 
         # ~をhomeディレクトリとして認識させる
         csv_path = os.path.expanduser(csv_path)
