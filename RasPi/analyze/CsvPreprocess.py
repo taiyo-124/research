@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 # 日付.csvファイルを前処理. 1回の測定結果を1つのcsvファイルにまとめる. 複数日にまたがっている⇛ MultiDate = True
 MultiDate = True
-date = '2025-05-14'
-fileName = 'LoRa/1MINLoRa.csv'
+date = '2025-05-20'
+fileName = 'LoRa/2MINLoRa.csv'
 
 # ファイルを読み込んでDataFrame化(その際にindexを日時に変更)
 df_date1 = pd.read_csv(f'/home/kawashima/Data/RawData/{date}.csv', index_col=0, skiprows=2, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
@@ -24,6 +24,10 @@ if MultiDate:
     df_date2.index = pd.to_datetime(df_date2.index, format='%H:%M:%S')
     date_only = pd.to_datetime(date2)
     df_date2.index = df_date2.index.map(lambda dt: pd.Timestamp.combine(date_only.date(), dt.time()))
+    
+    # 同じ日付に異なる種類のデータがあるため, 抽出
+    df_date2 = df_date2[df_date2.index.time < pd.to_datetime("03:00").time()]
+    print(df_date2)
 
 
     merged_df = pd.concat([df_date1, df_date2], axis=0)
