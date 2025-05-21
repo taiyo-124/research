@@ -71,7 +71,7 @@ def main(ser):
         # ~をhomeディレクトリとして認識させる
         csv_path = os.path.expanduser(csv_path)
 
-        save_csv(csv_path, time, temperature, humid, pressure, voltage, RSSI)
+        save_csv(csv_path, now, temperature, humid, pressure, voltage, RSSI)
 
         print("=============================================================================================")
 
@@ -93,10 +93,10 @@ def reading_ser(ser_receive):
 
 
 # csvファイルに保存(ファイルがなければ生成する)
-def save_csv(path, time, temperature, humid, pressure, voltage, RSSI):
+def save_csv(path, now, temperature, humid, pressure, voltage, RSSI):
     # ファイル初期化
     if not os.path.exists(path):
-        df_init = pd.DataFrame(index= [time], columns=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+        df_init = pd.DataFrame(index= [now], columns=["temperature", "humidity", "pressure", "voltage", "RSSI"])
         df_init.to_csv(path)
 
     df = pd.DataFrame([{
@@ -105,12 +105,12 @@ def save_csv(path, time, temperature, humid, pressure, voltage, RSSI):
         "pressure": pressure,
         "voltage": voltage,
         "RSSI": RSSI
-    }], index=[time])
+    }], index=[now])
     
     #小数第２位までに丸める
     df = df.round(2)
 
-    print(f"[{time}] 気温: {temperature:.2f}℃, 湿度: {humid:.2f}%, 気圧: {pressure:.2f}kPa, 電圧: {voltage:.3f}mV, RSSI: {RSSI}dBm")
+    print(f"[{now}] 気温: {temperature:.2f}℃, 湿度: {humid:.2f}%, 気圧: {pressure:.2f}kPa, 電圧: {voltage:.3f}mV, RSSI: {RSSI}dBm")
 
     # csvファイルに追記保存
     df.to_csv(path, mode='a', header=False)
