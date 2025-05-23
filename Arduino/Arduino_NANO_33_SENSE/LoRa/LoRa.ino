@@ -31,16 +31,12 @@ void setup(){
   HS300x.begin();
   BARO.begin();
   while(!Serial1);
-  
+
   delay(1000);
 
   Serial.println("Setup Start");
 
-  bool check_3 = mode3();
-  if (!check_3) {
-    Serial.println("Mode 3 ERROR");
-    while(1);
-  }
+  mode3();
 
   Set_parameters();
 
@@ -58,10 +54,6 @@ void loop(){
   Serial.print(vinput);
   Serial.println("mV");
   
-
-  bool check_1 = mode0();
-
-  Serial.println("Mode 0 done");
   
   float temp = HS300x.readTemperature(CELSIUS);
   float humid = HS300x.readHumidity();
@@ -76,7 +68,7 @@ void loop(){
   Serial.print("Pressure: ");
   Serial.println(pressure);
 
-  delay(SEC);
+  delay(100);
 
   float2bytes(temp, temp_bytes);
   float2bytes(humid, humid_bytes);
@@ -92,11 +84,19 @@ void loop(){
     payload[11+i] = pressure_bytes[i];
     payload[15+i] = vinput_bytes[i];
   }
+
+  mode0();
+
+  delay(50);
   
   Serial1.write(payload, sizeof(payload));
+
+  delay(50);
+
+  mode3();
   Serial.println("Data Sended");
 
-  delay(1 * MIN);
+  delay(2 * MIN);
 
   return;
 }

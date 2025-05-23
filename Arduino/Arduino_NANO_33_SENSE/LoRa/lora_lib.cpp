@@ -27,18 +27,18 @@ const uint8_t SecretCodeLo = 0x00; // 暗号
 
 
 
-boolean mode0(){
+void mode0(){
   digitalWrite(M0, LOW);
   digitalWrite(M1, LOW);
-  delay(1000);
-  return true;
+  delay(50);
+  return ;
 }
 
-boolean mode3(){
+void mode3(){
   digitalWrite(M0, HIGH);
   digitalWrite(M1, HIGH);
-  delay(1000);
-  return true;
+  delay(50);
+  return ;
 }
 
 void Set_parameters(){

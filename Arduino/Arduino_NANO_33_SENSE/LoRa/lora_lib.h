@@ -1,6 +1,6 @@
-bool mode0();
+void mode0();
 
-bool mode3();
+void mode3();
 
 void Set_parameters();
 
