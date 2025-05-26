@@ -14,16 +14,19 @@ import matplotlib.dates as mdates
 
 
 # データ読み込み(~/Data/以下指定)
-file1 = 'LoRa/1MINLoRa.csv'
+file1 = 'LoRa/1MINDeepSleepLoRa.csv'
 df_LoRa1 = pd.read_csv(f'/home/kawashima/Data/{file1}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+print(df_LoRa1)
+print(len(df_LoRa1))
 
-file2 = 'LoRa/2MINLoRa.csv'
-df_LoRa2 = pd.read_csv(f'/home/kawashima/Data/{file2}', index_col=0, skiprows=3, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+file2 = 'LoRa/2MINDeepSleepLoRa.csv'
+df_LoRa2 = pd.read_csv(f'/home/kawashima/Data/{file2}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 print(df_LoRa2)
+print(len(df_LoRa2))
 
 
 """ 以下, RasPi側でデータを取得したときに実行(df.index: %H:%M:%S) """
-# 電圧値を3分単位で平均化
+# 電圧値を3つ単位で平均化
 group_size = 3
 
 # RSSIで条件をつけてデータを取り出す
@@ -44,7 +47,7 @@ df_LoRa2.index = df_LoRa2.index.total_seconds() / 60 / 60
 print(df_LoRa2)
 
 # 'voltage'の平均化
-df_LoRa_valid['voltage'] = df_LoRa_valid.groupby(np.arange(len(df_LoRa_valid)) // group_size)['voltage'].transform('mean')
+df_LoRa_valid['voltage'] = df_LoRa_valid.groupby(np.arange(len(df_LoRa_valid)) // (2*group_size))['voltage'].transform('mean')
 print(df_LoRa_valid)
 
 # 'voltage'の平均化
@@ -77,7 +80,7 @@ plt.plot(df_LoRa2.index, df_LoRa2['voltage'], label="Interval: 2 minute")
 
 plt.xlabel("Elapsed Time [hour]")
 plt.ylabel("Voltage [mV]")
-plt.title("Voltage Variation During LoRa: 1 minute vs 2 minute")
+plt.title("Voltage Variation During DeepSleep LoRa: 1 minute vs 2 minute")
 plt.grid(True)
 plt.legend(fontsize=15)
 
@@ -89,7 +92,7 @@ ax.tick_params(which='major', length=5, direction='in')
 ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
 ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
 ax.yaxis.set_minor_locator(ticker.AutoMinorLocator())
-ax.set_xlim(left=0, right=9.5)
+ax.set_xlim(left=0, right=28)
 ax.set_ylim(bottom=3300)
 
 plt.tight_layout()
