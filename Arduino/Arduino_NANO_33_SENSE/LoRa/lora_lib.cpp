@@ -30,14 +30,23 @@ const uint8_t SecretCodeLo = 0x00; // 暗号
 void mode0(){
   digitalWrite(M0, LOW);
   digitalWrite(M1, LOW);
+
+  unsigned long Millis0 = millis();
+  Serial.print("Millis0: ");
+  Serial.println(Millis0);
   delay(50);
+  
   return ;
 }
 
 void mode3(){
   digitalWrite(M0, HIGH);
   digitalWrite(M1, HIGH);
+  unsigned long Millis1 = millis();
+  Serial.print("Millis1: ");
+  Serial.println(Millis1);
   delay(50);
+  
   return ;
 }
 
