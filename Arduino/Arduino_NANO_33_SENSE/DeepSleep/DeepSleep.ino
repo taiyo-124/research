@@ -1,5 +1,13 @@
 #include <HS300x.h>
 #include <Arduino_LPS22HB.h>
+#include <Arduino.h>
+
+#include "mbed.h"
+using namespace mbed;
+LowPowerTimeout timer;
+
+
+volatile bool shouldWakeup = false;
 
 #include "lora_lib.h"
 
@@ -19,38 +27,58 @@ byte pressure_bytes[4];
 byte vinput_bytes[4];
 
 
-
-
+void wake(){
+  shouldWakeup = true;
+}
 
 void setup(){
+
+  // 初期化
   pinMode(M0, OUTPUT);
   pinMode(M1, OUTPUT);
   
   Serial.begin(9600);
   Serial1.begin(9600);
   while(!Serial1);
-
-  delay(1000);
-
+  delay(50);
   Serial.println("Setup Start");
 
+  // LoRaモジュールの初期化
   mode3();
 
   Set_parameters();
 
+  // SleepModeをSLEEPDEEPに設定
+  SCB->SCR |= (1 << 2);
+  
+
   Serial.println("Setup done");
+
+  Serial.end();
+  Serial1.end();
+  delay(50);
+
+  
 }
 
 void loop(){
 
+  shouldWakeup = false;
+
+  timer.attach(&wake, 59.5f);
+  while(!shouldWakeup){
+    sleep();
+  }
+
+  Serial.begin(9600);
+  Serial1.begin(9600);
+  delay(50);
+
+  Serial.println("Wakeup");
+  
   int voltage = analogRead(A0);
-  Serial.print("analogRead: ");
-  Serial.println(voltage);
   
   float vinput = 3300.0*voltage/512;
-  Serial.print("Voltage: ");
-  Serial.print(vinput);
-  Serial.println("mV");
 
   HS300x.begin();
   BARO.begin();
@@ -60,15 +88,6 @@ void loop(){
   float temp = HS300x.readTemperature(CELSIUS);
   float humid = HS300x.readHumidity();
   float pressure = BARO.readPressure();
-
-  Serial.print("Temperature: ");
-  Serial.println(temp);
-
-  Serial.print("Humidity: ");
-  Serial.println(humid);
-
-  Serial.print("Pressure: ");
-  Serial.println(pressure);
 
   delay(50);
 
@@ -101,7 +120,8 @@ void loop(){
   mode3();
   Serial.println("Data Sended");
 
-  delay(10 * MIN);
+  Serial.end();
+  Serial1.end();
 
   return;
 }
