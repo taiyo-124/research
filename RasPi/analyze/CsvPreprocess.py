@@ -5,14 +5,14 @@ from datetime import datetime, timedelta
 
 # 日付.csvファイルを前処理. 1回の測定結果を1つのcsvファイルにまとめる. 複数日にまたがっている⇛ MultiDate = True
 MultiDate = True
-date = '2025-06-03'
-fileName = 'LoRa/1SECDeepSleepLoRa.csv'
+date = '2025-06-10'
+fileName = 'LoRa/2SECDeepSleepLoRa.csv'
 
 # ファイルを読み込んでDataFrame化(その際にindexを日時に変更)
 df_date1 = pd.read_csv(f'/home/kawashima/Data/RawData/{date}.csv', index_col=0, skiprows=2, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 print(df_date1.index)
 df_date1.index = pd.to_datetime(df_date1.index)
-df_date1 = df_date1[df_date1.index.time >= pd.to_datetime("18:00").time()]
+df_date1 = df_date1[df_date1.index.time >= pd.to_datetime("18:33:56").time()]
 
 if MultiDate:
     dt1 = datetime.strptime(date, "%Y-%m-%d")

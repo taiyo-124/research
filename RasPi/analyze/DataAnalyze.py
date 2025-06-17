@@ -13,47 +13,48 @@ import matplotlib.dates as mdates
 """
 
 
-# データ読み込み(~/Data/以下指定)
-file1 = 'LoRa/1MINLoRa.csv'
-df_LoRa1 = pd.read_csv(f'/home/kawashima/Data/{file1}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
-print(df_LoRa1)
-print(len(df_LoRa1))
+# データ読み込み(~/Data/以下指定) "file_間隔"で指定
+#
+file_1MIN = 'LoRa/1MINDeepSleepLoRa.csv'
+df_1MIN = pd.read_csv(f'/home/kawashima/Data/{file_1MIN}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+print(df_1MIN)
+print(len(df_1MIN))
 
-file2 = 'LoRa/1SECDeepSleepLoRa.csv'
-df_LoRa2 = pd.read_csv(f'/home/kawashima/Data/{file2}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
-print(df_LoRa2)
-print(len(df_LoRa2))
+file_1SEC = 'LoRa/1SECDeepSleepLoRa.csv'
+df_1SEC = pd.read_csv(f'/home/kawashima/Data/{file_1SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+print(df_1SEC)
+print(len(df_1SEC))
 
 
 """ 以下, RasPi側でデータを取得したときに実行(df.index: %H:%M:%S) """
 # 電圧値を3つ単位で平均化
-group_size1 = 1
-group_size2 = 5
+group_size_1MIN = 5
+group_size_1SEC = 5
 
 # RSSIで条件をつけてデータを取り出す
-df_LoRa_valid = df_LoRa1[df_LoRa1['RSSI'] > -100]
+df_1MIN = df_1MIN[df_1MIN['RSSI'] > -100]
 
 # 経過時間に変換(Timedelta型)
-df_LoRa_valid.index = pd.to_datetime(df_LoRa_valid.index)
-elapsed_s_LoRa = (df_LoRa_valid.index - df_LoRa_valid.index[0])
-df_LoRa_valid.index = pd.to_timedelta(elapsed_s_LoRa, unit='s')
+df_1MIN.index = pd.to_datetime(df_1MIN.index)
+elapsed_s_1MIN = (df_1MIN.index - df_1MIN.index[0])
+df_1MIN.index = pd.to_timedelta(elapsed_s_1MIN, unit='s')
 # Timedelta型を時間単位に
-df_LoRa_valid.index = df_LoRa_valid.index.total_seconds() / 60 / 60 
-print(df_LoRa_valid)
+df_1MIN.index = df_1MIN.index.total_seconds() / 60 / 60 
+print(df_1MIN)
 
-df_LoRa2.index = pd.to_datetime(df_LoRa2.index)
-elapsed_s_LoRa2 = (df_LoRa2.index - df_LoRa2.index[0])
-df_LoRa2.index = pd.to_timedelta(elapsed_s_LoRa2, unit='s')
-df_LoRa2.index = df_LoRa2.index.total_seconds() / 60 / 60
-print(df_LoRa2)
-
-# 'voltage'の平均化
-df_LoRa_valid['voltage'] = df_LoRa_valid.groupby(np.arange(len(df_LoRa_valid)) // (group_size1))['voltage'].transform('mean')
-print(df_LoRa_valid)
+df_1SEC.index = pd.to_datetime(df_1SEC.index)
+elapsed_s_1SEC = (df_1SEC.index - df_1SEC.index[0])
+df_1SEC.index = pd.to_timedelta(elapsed_s_1SEC, unit='s')
+df_1SEC.index = df_1SEC.index.total_seconds() / 60 / 60
+print(df_1SEC)
 
 # 'voltage'の平均化
-df_LoRa2['voltage'] = df_LoRa2.groupby(np.arange(len(df_LoRa2)) // group_size2)['voltage'].transform('mean')
-print(df_LoRa2)
+df_1MIN['voltage'] = df_1MIN.groupby(np.arange(len(df_1MIN)) // (group_size_1MIN))['voltage'].transform('mean')
+print(df_1MIN)
+
+# 'voltage'の平均化
+df_1SEC['voltage'] = df_1SEC.groupby(np.arange(len(df_1SEC)) // group_size_1SEC)['voltage'].transform('mean')
+print(df_1SEC)
 
 
 
@@ -75,13 +76,13 @@ print(df_LoRa2)
 # 経過時間と電圧のグラフを表示
 
 plt.figure(figsize=(10, 5))
-plt.plot(df_LoRa_valid.index, df_LoRa_valid['voltage'], label="No DeepSleep 1 Min")
-plt.plot(df_LoRa2.index, df_LoRa2['voltage'], label="DeepSleep 1 Sec")
+plt.plot(df_1MIN.index, df_1MIN['voltage'], label="DeepSleep 1 Min")
+plt.plot(df_1SEC.index, df_1SEC['voltage'], label="DeepSleep 1 Sec")
 
 
 plt.xlabel("Elapsed Time [hour]")
 plt.ylabel("Voltage [mV]")
-plt.title("Voltage Variation No DeepSleep 1 Min vs DeepSleep 1 SEC")
+# plt.title("Voltage Variation DeepSleep 1 Min vs DeepSleep 1 SEC")
 plt.grid(True)
 plt.legend(fontsize=15)
 
@@ -93,7 +94,7 @@ ax.tick_params(which='major', length=5, direction='in')
 ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
 ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
 ax.yaxis.set_minor_locator(ticker.AutoMinorLocator())
-ax.set_xlim(left=0, right=10)
+ax.set_xlim(left=0)
 ax.set_ylim(bottom=3300)
 
 plt.tight_layout()
