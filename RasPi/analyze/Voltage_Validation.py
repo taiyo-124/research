@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
+
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 
@@ -29,6 +31,14 @@ df_list.append(df_2SEC)
 file_5SEC = 'LoRa/5SECDeepSleepLoRa.csv'
 df_5SEC = pd.read_csv(f'/home/kawashima/Data/{file_5SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 df_list.append(df_5SEC)
+
+file_10SEC = 'LoRa/10SECDeepSleepLoRa.csv'
+df_10SEC = pd.read_csv(f'/home/kawashima/Data/{file_10SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+df_list.append(df_10SEC)
+
+file_30SEC = 'LoRa/30SECDeepSleepLoRa.csv'
+df_30SEC = pd.read_csv(f'/home/kawashima/Data/{file_30SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+df_list.append(df_30SEC)
 
 file_1MIN = 'LoRa/1MINDeepSleepLoRa.csv'
 df_1MIN = pd.read_csv(f'/home/kawashima/Data/{file_1MIN}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
@@ -81,15 +91,17 @@ for df in df_list:
 # 経過時間と電圧のグラフを表示
 
 plt.figure(figsize=(10, 5))
-plt.plot(df_1MIN.index, df_1MIN['voltage'], label="1 Min")
-plt.plot(df_1SEC.index, df_1SEC['voltage'], label="1 Sec")
-plt.plot(df_2SEC.index, df_2SEC['voltage'], label="2 Sec")
-plt.plot(df_5SEC.index, df_5SEC['voltage'], label='5 Sec')
+plt.plot(df_1SEC.index, df_1SEC['voltage'], label="1 sec")
+plt.plot(df_2SEC.index, df_2SEC['voltage'], label="2 sec")
+plt.plot(df_5SEC.index, df_5SEC['voltage'], label='5 sec')
+plt.plot(df_10SEC.index, df_10SEC['voltage'], label='10 sec')
+plt.plot(df_30SEC.index, df_30SEC['voltage'], label='30 sec')
+plt.plot(df_1MIN.index, df_1MIN['voltage'], label="1 min")
 
 
-plt.xlabel("Elapsed Time [hour]")
-plt.ylabel("Voltage [mV]")
-# plt.title("Voltage Variation DeepSleep 1 Min vs DeepSleep 1 SEC")
+plt.xlabel("Elapsed Time (hour)")
+plt.ylabel("Voltage (mV)")
+plt.title("Voltage Variation")
 plt.grid(True)
 plt.legend(fontsize=15)
 
@@ -103,6 +115,29 @@ ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
 ax.yaxis.set_minor_locator(ticker.AutoMinorLocator())
 ax.set_xlim(left=0)
 ax.set_ylim(bottom=3300)
+
+# 枠で囲む(グラフの変な部分)
+rect_x = 5.05
+rect_y = 3695
+rect_width = 0.5
+rect_height = 75
+rect = patches.Rectangle((rect_x, rect_y), rect_width, rect_height,
+                         edgecolor='black', facecolor='none',
+                         linewidth=2, linestyle='--')
+
+rect_x2 = 6.67
+rect_y2 = 3825
+rect2 = patches.Rectangle((rect_x2, rect_y2), rect_width, rect_height, edgecolor='black', facecolor='none', linewidth=2, linestyle='--')
+
+rect_x3 = 9.49
+rect_y3 = 3645
+rect3 = patches.Rectangle((rect_x3, rect_y3), rect_width, 50, edgecolor='black', facecolor='none', linewidth=2, linestyle='--')
+# パッチを追加
+plt.gca().add_patch(rect)
+plt.gca().add_patch(rect2)
+plt.gca().add_patch(rect3)
+# テキストを追加
+plt.text(7, 3675, '???', fontsize=20, color='black')
 
 plt.tight_layout()
 plt.show()

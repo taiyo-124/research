@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 
 # 日付.csvファイルを前処理. 1回の測定結果を1つのcsvファイルにまとめる. 複数日にまたがっている⇛ MultiDate = True
 MultiDate = True
-date = '2025-06-17'
-fileName = 'LoRa/5SECDeepSleepLoRa.csv'
+date = '2025-06-27'
+fileName = 'LoRa/30SECDeepSleepLoRa.csv'
 
 # ファイルを読み込んでDataFrame化(その際にindexを日時に変更)
 df_date1 = pd.read_csv(f'/home/kawashima/Data/RawData/{date}.csv', index_col=0, skiprows=2, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
