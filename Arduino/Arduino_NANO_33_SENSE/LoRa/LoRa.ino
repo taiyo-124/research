@@ -28,6 +28,8 @@ void setup(){
   
   Serial.begin(9600);
   Serial1.begin(9600);
+  HS300x.begin();
+  BARO.begin();
   while(!Serial1);
 
   delay(1000);
@@ -35,6 +37,8 @@ void setup(){
   Serial.println("Setup Start");
 
   mode3();
+
+  delay(100);
 
   Set_parameters();
 
@@ -51,11 +55,6 @@ void loop(){
   Serial.print("Voltage: ");
   Serial.print(vinput);
   Serial.println("mV");
-
-  HS300x.begin();
-  BARO.begin();
-
-  delay(50);
   
   float temp = HS300x.readTemperature(CELSIUS);
   float humid = HS300x.readHumidity();
@@ -72,8 +71,6 @@ void loop(){
 
   delay(50);
 
-  HS300x.end();
-  BARO.end();
 
   float2bytes(temp, temp_bytes);
   float2bytes(humid, humid_bytes);
@@ -92,16 +89,16 @@ void loop(){
 
   mode0();
 
-  delay(50);
+  delay(10);
   
   Serial1.write(payload, sizeof(payload));
 
-  delay(50);
+  delay(10);
 
   mode3();
   Serial.println("Data Sended");
 
-  delay(10 * MIN);
+  delay(10 * SEC);
 
   return;
 }
