@@ -102,10 +102,22 @@ documentclass[article]
 
 \section{2025/07/04}
 \begin{itemize}
-    \item 微調整をして再計測. WDT間隔10秒(受信間隔は約12秒)
-    \item 12:44送信開始, 電池残量4.19V
+    \item 10秒だとあまり差を感じられないため, WDT間隔を60秒に(プログラムの動作に約2秒かかる)
+    \item 16:11送信開始, 電池残量4.2V ⇛ 翌日18:37まで動作 (26時間26分)
 \end{itemize}
 
+\section{2025/07/07}
+\begin{itemize}
+    \item モジュールを.end()してから, __WFI()を実行するように変更. これで無理ならもう原因がわかりません$\dots$
+    \item 12:37送信開始, 電池残量4.2V ⇛ 変化なさそうなので変更. 間隔を120秒に
+    \item 14:12送信開始, 電池残量4.19V ⇛ 翌日21:09まで動作 (30時間57分)
+\end{itemize}
+
+\section{2025/07/11}
+\begin{itemize}
+    \item 間隔10分(600秒)
+    \item
+\end{itemize}
 
 \end{document}
 

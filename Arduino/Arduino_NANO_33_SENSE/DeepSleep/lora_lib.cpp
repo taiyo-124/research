@@ -62,9 +62,6 @@ void Set_parameters(){
   delay(1000);
   
   Serial1.readBytes(response, 11);
-  for (int i = 0; i<11; i++) {
-      Serial.println(response[i]);
-  }
 
   return;
 }
@@ -77,6 +74,5 @@ void float2bytes(float val, byte* bytes_array) {
   data.f = val;
   for (int i = 0; i < 4; i++) {
     bytes_array[i] = data.b[i];
-    Serial.println(bytes_array[i]);
   }
 }

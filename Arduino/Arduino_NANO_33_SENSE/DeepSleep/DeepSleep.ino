@@ -9,7 +9,7 @@
 #define HOUR (60*MIN)
 
 // WDTのタイムアウト時間を設定
-#define WDT_TIMEOUT_SECONDS 10
+#define WDT_TIMEOUT_SECONDS 600
 
 
 // WDT CONFIG レジスタのビットフィールド値
@@ -92,6 +92,10 @@ void setup() {
   delay(10);
   mode3();
 
+  Serial1.end();
+  HS300x.end();
+  BARO.end();
+
   
   // --- リセット要因の確認 --- (WDTになっているはず)
   uint32_t resetReason = NRF_POWER->RESETREAS;
@@ -121,9 +125,8 @@ void setup() {
 
   // 4. WDT 開始
   NRF_WDT->TASKS_START = 1;
-
-  // 5. Sleep(WFI/WFE)に入る  ~/.arduino15/packages/arduino/hardware/mbed_nano/4.2.4/cores/arduino/mbed/cmsis/CMSIS_5/CMSIS/TARGET_CORTEX_M/Include/cmsis_gcc.h
-  __WFI();
 }
 
-void loop(){}
+void loop(){
+  __WFI();
+}
