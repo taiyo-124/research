@@ -26,6 +26,10 @@ file_10SEC = 'LoRa/10SECDeepSleepLoRa.csv'
 df_10SEC = pd.read_csv(f'/home/kawashima/Data/{file_10SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 df_list.append(df_10SEC)
 
+file_10SEC_v2 = 'LoRa/10SECDeepSleepLoRa_v2.csv'
+df_10SEC_v2 = pd.read_csv(f'/home/kawashima/Data/{file_10SEC_v2}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+df_list.append(df_10SEC_v2)
+
 file_30SEC = 'LoRa/30SECDeepSleepLoRa.csv'
 df_30SEC = pd.read_csv(f'/home/kawashima/Data/{file_30SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 df_list.append(df_30SEC)
@@ -49,7 +53,7 @@ for df in df_list:
 print(elapsed_time_list)
 
 # 時間間隔のリスト
-span_list = [1, 2, 5, 10, 30, 60]
+span_list = [1, 2, 5, 10, 10, 30, 60]
 
 # 近似曲線の表示(対数)
 x_data = np.array(span_list)

@@ -6,7 +6,7 @@ import struct
 from datetime import datetime
 import pandas as pd
 
-save = True
+save = False
 
 # ポート設定 (使用するLoraモジュールによって使い分ける: USBとGPIO)
 ser_USB = serial.Serial(
@@ -98,9 +98,6 @@ def save_csv(path, now, temperature, humid, pressure, voltage, RSSI):
     # ファイル初期化
     if not os.path.exists(path):
         df_init = pd.DataFrame(index= [now], columns=["temperature", "humidity", "pressure", "voltage", "RSSI"])
-        if save:
-            df_init.to_csv(path)
-            print("csvファイルを生成しました.")
 
     df = pd.DataFrame([{
         "temperature": temperature,
@@ -114,11 +111,6 @@ def save_csv(path, now, temperature, humid, pressure, voltage, RSSI):
     df = df.round(2)
 
     print(f"[{now}] 気温: {temperature:.2f}℃, 湿度: {humid:.2f}%, 気圧: {pressure:.2f}kPa, 電圧: {voltage:.3f}mV, RSSI: {RSSI}dBm")
-
-    # csvファイルに追記保存
-    if save:
-        df.to_csv(path, mode='a', header=False)
-        print("csvファイルを保存しました.")
 
     return
     
