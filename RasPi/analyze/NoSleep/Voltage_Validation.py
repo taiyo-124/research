@@ -36,6 +36,10 @@ file_10SEC = 'LoRa/10SECDeepSleepLoRa.csv'
 df_10SEC = pd.read_csv(f'/home/kawashima/Data/{file_10SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 df_list.append(df_10SEC)
 
+file_10SEC_v2 = 'LoRa/10SECDeepSleepLoRa_v2.csv'
+df_10SEC_v2 = pd.read_csv(f'/home/kawashima/Data/{file_10SEC_v2}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
+df_list.append(df_10SEC_v2)
+
 file_30SEC = 'LoRa/30SECDeepSleepLoRa.csv'
 df_30SEC = pd.read_csv(f'/home/kawashima/Data/{file_30SEC}', index_col=0, skiprows=1, names=["temperature", "humidity", "pressure", "voltage", "RSSI"])
 df_list.append(df_30SEC)
@@ -63,8 +67,8 @@ group_size_list = [5, 5, 5, 5]
 
 for df in df_list:
     df.index = pd.to_datetime(df.index)
-    elapsed_s_1SEC = (df.index - df.index[0])
-    df.index = pd.to_timedelta(elapsed_s_1SEC, unit='s')
+    elapsed_s = (df.index - df.index[0])
+    df.index = pd.to_timedelta(elapsed_s, unit='s')
     df.index = df.index.total_seconds() / 60 / 60
     print(df)
 
@@ -89,12 +93,14 @@ for df in df_list:
 """ 以下, 行いたい操作を記述 """
 
 # 経過時間と電圧のグラフを表示
+print("Plot Beginning")
 
 plt.figure(figsize=(10, 5))
 plt.plot(df_1SEC.index, df_1SEC['voltage'], label="1 sec")
 plt.plot(df_2SEC.index, df_2SEC['voltage'], label="2 sec")
 plt.plot(df_5SEC.index, df_5SEC['voltage'], label='5 sec')
 plt.plot(df_10SEC.index, df_10SEC['voltage'], label='10 sec')
+plt.plot(df_10SEC_v2.index, df_10SEC_v2['voltage'], label='10 sec v2')
 plt.plot(df_30SEC.index, df_30SEC['voltage'], label='30 sec')
 plt.plot(df_1MIN.index, df_1MIN['voltage'], label="1 min")
 
