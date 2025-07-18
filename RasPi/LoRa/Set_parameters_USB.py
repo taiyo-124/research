@@ -19,7 +19,7 @@ params = {
     "address_high": 0x00,
     "address_low": 0x00,
     "BPS": 0x70,
-    "options_main": 0x73,
+    "options_main": 0x23,
     "channel": 0x00,
     "options_sub": 0xC5,
     "crypt_high": 0x00,
