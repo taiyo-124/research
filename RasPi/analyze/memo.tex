@@ -27,7 +27,7 @@ documentclass[article]
 \section{2025/05/21}
 \begin{itemize}
     \item LoRa: 通信間隔1分, 送信を終えるたびにDeepSleepモードになるように変更.
-    \item 10:35送信開始. 電池残量4.18V ⇛ 翌日14:00まで正常に動作. (終了時電池残量2.95V(05/23/10:56))
+    \item 10:35送信開始. 電池残量4.18V ⇛ 翌日14:00まで正常に動作. (27時間25分)
 \end{itemize}
 
 \section{2025/05/23}
@@ -39,7 +39,7 @@ documentclass[article]
 \section{2025/05/26}
 \begin{itemize}
     \item LoRa: 通信間隔10分, DeepSleep+センサ側もセンシングの度に停止.
-    \item 15:20送信開始, 電池残量4.19V ⇛ 翌日20:01まで正常に動作
+    \item 15:20送信開始, 電池残量4.19V ⇛ 翌日20:01まで正常に動作 ()
     \item センサ側の停止はデフォルトでreadするときのみになっているらしいので, 単純に10分にしたことになっている(かも)
 \end{itemize}
 
@@ -128,8 +128,19 @@ documentclass[article]
 \section{2025/07/18}
 \begin{itemize}
     \item もう一度間隔1分(60秒)
-    \item 13:30送信開始
+    \item 13:30送信開始 ⇛ 翌日の19:38まで動作 (30時間8分)
 \end{document}
+
+\section{2025/07/21}
+\begin{itemize}
+    \item 間隔10秒
+    \item 14:46送信開始 → 翌日11:05まで動作 (20時間19分)
+\end{itemize}
+
+\section{2025/07/25}
+\begin{itemize}
+    \item NoSleepのdelay(1分)のデータをもう一度取る
+    \item 15:15送信開始 → 
 
 \end{document}
 

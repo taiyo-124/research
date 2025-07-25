@@ -9,7 +9,7 @@
 #define HOUR (60*MIN)
 
 // WDTのタイムアウト時間を設定
-#define WDT_TIMEOUT_SECONDS 60
+#define WDT_TIMEOUT_SECONDS 10
 
 
 // WDT CONFIG レジスタのビットフィールド値

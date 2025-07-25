@@ -25,16 +25,10 @@ byte vinput_bytes[4];
 void setup(){
   pinMode(M0, OUTPUT);
   pinMode(M1, OUTPUT);
-  
-  Serial.begin(9600);
   Serial1.begin(9600);
   HS300x.begin();
   BARO.begin();
   while(!Serial1);
-
-  delay(1000);
-
-  Serial.println("Setup Start");
 
   mode3();
 
@@ -42,33 +36,18 @@ void setup(){
 
   Set_parameters();
 
-  Serial.println("Setup done");
 }
 
 void loop(){
 
   int voltage = analogRead(A0);
-  Serial.print("analogRead: ");
-  Serial.println(voltage);
   
   float vinput = 3300.0*voltage/512;
-  Serial.print("Voltage: ");
-  Serial.print(vinput);
-  Serial.println("mV");
   
   float temp = HS300x.readTemperature(CELSIUS);
   float humid = HS300x.readHumidity();
   float pressure = BARO.readPressure();
-
-  Serial.print("Temperature: ");
-  Serial.println(temp);
-
-  Serial.print("Humidity: ");
-  Serial.println(humid);
-
-  Serial.print("Pressure: ");
-  Serial.println(pressure);
-
+  
   delay(50);
 
 
@@ -96,9 +75,8 @@ void loop(){
   delay(10);
 
   mode3();
-  Serial.println("Data Sended");
 
-  delay(10 * SEC);
+  delay(60 * SEC);
 
   return;
 }

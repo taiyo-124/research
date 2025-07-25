@@ -59,7 +59,7 @@ void Set_parameters(){
 
   Serial1.write(request, 11);
 
-  delay(1000);
+  delay(10);
   
   Serial1.readBytes(response, 11);
 
