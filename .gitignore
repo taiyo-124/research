@@ -1,0 +1,13 @@
+#LaTex
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.bbl
+*.blg
+*.synctex.gz
+
+#Personal files
+memo.tex
