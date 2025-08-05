@@ -10,4 +10,4 @@
 *.synctex.gz
 
 #Personal files
-thesis/rengo/memo.tex
+**/memo.tex
