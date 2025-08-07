@@ -12,21 +12,22 @@
 \usepackage{cite}
 \usepackage{url}
 
-\title{{\bfseries IoTデバイス, LoRa通信を用いたセンシングシステムにおける消費電力のモデル化とその実機評価}\\[1ex]
+
+\title{{\bfseries IoTデバイス, LoRa通信を用いたセンシングシステムにおける実機実験に基づいた消費電力のモデル化}\\
 \large{Modeling and Practical Evaluation of Power Consumption for LoRa-based IoT Sensing Systems}}
 \author{
     河嶋 太陽\textsuperscript{1},
     筒井 弘\textsuperscript{2},
     大鐘 武雄\textsuperscript{2}
-    \\[1ex]
+    \\
     \normalsize
     Taiyoh Kawashima\textsuperscript{1},
     Hiroshi Tsutsui\textsuperscript{2},
     Takeo Ohgane\textsuperscript{2}
-    \\[1ex]
+    \\
     \textsuperscript{1}北海道大学工学部,
     \textsuperscript{2}北海道大学大学院情報科学研究院
-    \\[1ex]
+    \\
     \normalsize
     \textsuperscript{1}School of Engineering/ \textsuperscript{2}Faculty of Information Science and Technology, Hokkaido University
 }
@@ -38,6 +39,32 @@
 \maketitle
 
 \section{はじめに}
+ IoT(Internet of things)システムの普及に伴い, 様々な場所でセンシングしたデータを無線通信により収集・記録する機会が増加している. 
+多くのIoTデバイスはバッテリーで駆動するため, その通信方式には極めて低い消費電力が要求される. 
+この要求に応える技術として,  低消費電力長距離無線通信の一種であるLoRaが注目されている. 
+しかし, LoRaが低消費電力であると広く認識されている一方で, その具体的な消費電力の内訳や動作状態を考慮した詳細な分析に関する研究は多くない. 
+そこで本稿では,  実際のIoTデバイスとLoRa通信モジュールを用いた測定に基づき, センシングシステムの消費電力の内訳を明らかにするとともに, その振る舞いを記述する消費電力モデルの構築を行った. 
+
+\section{システム概要}
+ 本研究で構築した測定システムの構成を図に示す. システムは主に以下の3つのコンポーネントから構成される.
+\begin{enumerate}
+    \item[(1)]\textbf{マイコンボード}
+
+    Arduino Nano 33 BLE Sense Rev2を採用した. このボードは内蔵センサにより温度, 湿度, 気圧の測定が可能であるほか, 
+    適切にレジスタ操作を行うことによりプロセッサを低消費電力なスリープモードへ移行させる機能を備えている.
+
+    \item[(2)]\textbf{LoRa通信モジュール}
+
+    Ebyte社のE220-900T22Sを用いた. このモジュールは, ArduinoプロセッサからUART通信を介して制御する. 
+    またこのモジュール自体も特定の制御ピンの電位を切り替えることでDeepSleepモードへ移行させることができる. 
+
+    \item[(3)]\textbf{電源}
+
+    システムの電源には, 容量110mAhのリチウムポリマーバッテリーを使用し, 各コンポーネントへ給電する.
+    なお, 本測定ではバッテリーが尽きるまでの時間を記録するため, 意図的に容量の小さいバッテリーを選択することで測定時間の短縮を図った.
+\end{enumerate}
+
+\section{実験概要}
 
 \section{まとめ}
 
