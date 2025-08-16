@@ -74,13 +74,36 @@
 \end{enumerate}
 
 
-\section{LoRa通信実機実験}
+\section{実機実験}
 本実験では, 満充電したバッテリーを用いて, 送信開始から送信が途切れるまでの時間を稼働時間とし,
 動作間隔を変化させたときの稼働時間を記録した. 
 その際に, 各コンポーネントのスリープ機能の導入がシステムの消費エネルギーに与える影響を定量的に評価するために,
 (1)スリープ機能を使用しない, (2)LoRa通信モジュールのみスリープ機能を使用する, (3)LoRa通信モジュールとIoTデバイス両方のスリープ機能を使用する, の3つの条件下でそれぞれ同様の実験を行った.
 
 \section{結果と考察}
+3つの測定パターンで得られた、動作間隔と稼働時間の関係を図に示す。
+
+次に, この実験結果を分析するためにシステムの総消費エネルギー$E_{\mathrm{total}}$をモデル化する. 
+$E_{\mathrm{total}}$は, 1回の動作(センシングと送信)で消費される動的エネルギー$E_{dynamic}$と, 
+待機中に消費される静的電力$P_{\mathrm{static}}$の和で表される.
+稼働時間を$T_{\mathrm{life}}$, 動作間隔を$T_{\mathrm{interval}}$とすると, 動作回数は$T_{\mathrm{life}}/T_{\mathrm{interval}}$となるため, 総エネルギーは次式で定量化される. 
+\begin{equation}
+    E_{\mathrm{total}} = E_{{\mathrm{dynamic}}} \cdot \frac{T_{\mathrm{life}}}{T_{\mathrm{interval}}} + P_{\mathrm{static}} \cdot T_{\mathrm{life}}
+    \label{eq:total_energy}
+\end{equation}
+
+バッテリーの総エネルギー$E_{\mathrm{total}}$は一定であると仮定し、式(\ref{eq:total_energy})の両辺を$E_{\mathrm{total}}$および$T_{\mathrm{life}}$で割ると、次式が導出される。
+\begin{equation}
+  \frac{E_{\mathrm{total}}}{T_{\mathrm{life}}} = E_{\mathrm{dynamic}} \cdot \frac{1}{T_{\mathrm{interval}}} + {P_{\mathrm{static}}}
+  \label{eq:linear_model}
+\end{equation}
+
+式(\ref{eq:linear_model})は、$y = 1/T_{\mathrm{life}}$、$x = 1/T_{\mathrm{interval}}$と置くと、$y=mx+c$の形式を持つ線形モデルと見なせる。
+したがって、実験で得られた稼働時間$T_{\mathrm{life}}$と動作間隔$T_{\mathrm{interval}}$の逆数をプロットし、線形回帰分析を行うことで、
+傾き$m=E_{\mathrm{dynamic}}$と切片$c=P_{\mathrm{static}}$を算出できる。
+
+この分析に基づき, 1分間の静的電力を基準として各測定パターンの静的電力$P_{\mathrm{static}}$と
+1回の動作で消費される動的エネルギー$E_{\mathrm{dynamic}}$を定量化した結果を図に示す.
 
 \section{まとめ}
 
