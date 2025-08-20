@@ -74,7 +74,7 @@ void loop(){
   
   Serial1.write(payload, sizeof(payload));
 
-  delay(10 * SEC);
+  delay(30 * SEC);
 
   return;
 }
