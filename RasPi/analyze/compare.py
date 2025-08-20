@@ -147,30 +147,31 @@ ax.tick_params(which='minor', direction='in')
 ax.tick_params(which='major', length=5, direction='in')
 ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
 
-# No Sleep plot
-x_fit_NoSleep = np.linspace(0.01, 10.5, 100)
-y_fit_NoSleep = 1 / (slope_NoSleep / x_fit_NoSleep + intercept_NoSleep)
-plt.scatter(span_list_NoSleep, time_list, s=10, color='magenta', label='Data (No Sleep)')
-plt.plot(x_fit_NoSleep, y_fit_NoSleep, color='purple', linestyle='--', label='Estimated Time (No Sleep)')
 
-# LoRa Sleep plot
-x_fit_LoRaSleep = np.linspace(0.01, 10.5, 100)
-y_fit_LoRaSleep = 1 / (slope_LoRaSleep / x_fit_LoRaSleep + intercept_LoRaSleep)
-plt.scatter(span_list_LoRaSleep, elapsed_time_list, s=10, color='red', label='Data (LoRa Sleep)')
-plt.plot(x_fit_LoRaSleep, y_fit_LoRaSleep, color='orange', linestyle='--', label='Estimated Time (LoRa Sleep)')
 
 # Both Sleep plot
 x_fit_BothSleep = np.linspace(0.01, 10.5, 100)
 y_fit_BothSleep = 1 / (slope_BothSleep / x_fit_BothSleep + intercept_BothSleep)
 
-plt.scatter(intervals, total_minutes, s=10, color='blue', label='Data (Both Sleep)')
+plt.scatter(intervals, total_minutes, s=15, color='blue', label='Data (Both Sleep)')
 ax.plot(x_fit_BothSleep, y_fit_BothSleep, color='c', linestyle='--', label='Estimated Time (Both Sleep)')
+# LoRa Sleep plot
+x_fit_LoRaSleep = np.linspace(0.01, 10.5, 100)
+y_fit_LoRaSleep = 1 / (slope_LoRaSleep / x_fit_LoRaSleep + intercept_LoRaSleep)
+plt.scatter(span_list_LoRaSleep, elapsed_time_list, s=15, color='red', label='Data (LoRa Sleep)')
+plt.plot(x_fit_LoRaSleep, y_fit_LoRaSleep, color='orange', linestyle='--', label='Estimated Time (LoRa Sleep)')
+
+# No Sleep plot
+x_fit_NoSleep = np.linspace(0.01, 10.5, 100)
+y_fit_NoSleep = 1 / (slope_NoSleep / x_fit_NoSleep + intercept_NoSleep)
+plt.scatter(span_list_NoSleep, time_list, s=15, color='magenta', label='Data (No Sleep)')
+plt.plot(x_fit_NoSleep, y_fit_NoSleep, color='purple', linestyle='--', label='Estimated Time (No Sleep)')
 
 
 ax.set_xlim(0, 10.5)
 ax.set_ylim(0, 2150)
-ax.set_xlabel('Interval (min)', fontsize=10)
-ax.set_ylabel('Operation Time (min)', fontsize=9)
+ax.set_xlabel('Interval (min)', fontsize=12)
+ax.set_ylabel('Operation Time (min)', fontsize=12)
 
 plt.grid(True)
 plt.legend(fontsize=10, loc='center right')
