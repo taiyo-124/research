@@ -140,7 +140,7 @@ print(f"動的電力: {slope_BothSleep}, 静的電力: {intercept_BothSleep}, �
 
 """" plot """
 
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(10, 10))
 
 ax = plt.gca()
 ax.tick_params(which='minor', direction='in')
@@ -176,5 +176,5 @@ ax.set_ylabel('Operation Time (min)', fontsize=16)
 
 plt.title("Comparison: 3 pattern (No Sleep vs LoRa Sleep vs Both Sleep)", fontsize=18)
 plt.grid(True)
-plt.legend(fontsize=15, loc='center right')
+plt.legend(fontsize=12, loc='center right')
 plt.show()
