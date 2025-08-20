@@ -4,8 +4,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # 日付.csvファイルを前処理. 1回の測定結果を1つのcsvファイルにまとめる. 複数日にまたがっている ⇛ またがっている日数 = NumDates
-NumDates = 2
-date = '2025-07-25'
+NumDates = 1
+date = '2025-05-14'
 fileName = 'NoSleep/1MIN.csv'
 
 # ファイルを読み込んでDataFrame化(その際にindexを日時に変更)
@@ -14,7 +14,7 @@ print(df_origin.index)
 df_origin.index = pd.to_datetime(df_origin.index)
 
 # 不要データを除いて前処理したいとき
-# df_origin = df_origin[df_origin.index.time >= pd.to_datetime("18:33:56").time()]
+df_origin = df_origin[df_origin.index.time <= pd.to_datetime("20:20:00").time()]
 date_list = [date]
 
 # マージ
