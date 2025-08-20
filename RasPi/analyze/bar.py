@@ -12,6 +12,7 @@ print(f"CPUSleep 動的電力:{CPUSleep[0] * CPUSleep[1]}")
 
 print(f"Dybamic Power:{100 *(CPUSleep[0]*CPUSleep[1]/(NoSleep[0]*NoSleep[1])-1)}増")
 print(f"Static Power:{100 * (1-CPUSleep[0]/NoSleep[0])}減")
+print(f"全体:{100 * (1- (CPUSleep[0]*(1 + CPUSleep[1]))/(NoSleep[0]*(1 + NoSleep[1])))}減")
 
 y_pos = np.arange(2)
 print(y_pos)
@@ -56,4 +57,4 @@ ax.set_yticks(y_pos)
 ax.set_yticklabels(['CPU Sleep', 'No Sleep'])
 ax.set_ylim(-0.5, len(labels) - 1 + 0.5)
 plt.legend()
-plt.show()
+plt.show()  
