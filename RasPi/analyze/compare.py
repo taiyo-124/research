@@ -48,6 +48,7 @@ slope_NoSleep, intercept_NoSleep = np.polyfit(x_NoSleep, y_NoSleep, 1)
 ratio_val = slope_NoSleep / intercept_NoSleep
 power_ratio= 1 / (1 / ratio_val)
 print("===== No Sleep =====")
+print(f"動作時間: {1 / intercept_NoSleep}")
 print(f"動的電力: {slope_NoSleep}, 静的電力: {intercept_NoSleep}, 比={slope_NoSleep/intercept_NoSleep}\n")
 
 
@@ -104,6 +105,7 @@ slope_LoRaSleep, intercept_LoRaSleep = np.polyfit(x_LoRaSleep, y_LoRaSleep, 1)
 ratio_val = slope_LoRaSleep / intercept_LoRaSleep
 power_ratio= 1 / (1 / ratio_val)
 print("===== LoRa Sleep =====")
+print(f"動作時間: {1 / intercept_LoRaSleep}")
 print(f"動的電力: {slope_LoRaSleep}, 静的電力: {intercept_LoRaSleep}, 比={slope_LoRaSleep/intercept_LoRaSleep}\n")
 
 
@@ -135,45 +137,49 @@ slope_BothSleep, intercept_BothSleep = np.polyfit(x_BothSleep, y_BothSleep, 1)
 ratio_val = slope_BothSleep / intercept_BothSleep
 power_ratio= 1 / (1 / ratio_val)
 print("===== Both Sleep =====")
+print(f"動作時間: {1 / intercept_BothSleep}")
 print(f"動的電力: {slope_BothSleep}, 静的電力: {intercept_BothSleep}, 比={slope_BothSleep/intercept_BothSleep}\n")
 
 
-"""" plot """
+# """" plot """
 
-plt.figure(figsize=(4, 4))
+# plt.figure(figsize=(4, 4))
 
-ax = plt.gca()
-ax.tick_params(which='minor', direction='in')
-ax.tick_params(which='major', length=5, direction='in')
-ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
-
-
-
-# Both Sleep plot
-x_fit_BothSleep = np.linspace(0.01, 10.5, 100)
-y_fit_BothSleep = 1 / (slope_BothSleep / x_fit_BothSleep + intercept_BothSleep)
-
-plt.scatter(intervals, total_minutes, s=15, color='blue', label='Data (Both Sleep)')
-ax.plot(x_fit_BothSleep, y_fit_BothSleep, color='c', linestyle='--', label='Estimated Time (Both Sleep)')
-# LoRa Sleep plot
-x_fit_LoRaSleep = np.linspace(0.01, 10.5, 100)
-y_fit_LoRaSleep = 1 / (slope_LoRaSleep / x_fit_LoRaSleep + intercept_LoRaSleep)
-plt.scatter(span_list_LoRaSleep, elapsed_time_list, s=15, color='red', label='Data (LoRa Sleep)')
-plt.plot(x_fit_LoRaSleep, y_fit_LoRaSleep, color='orange', linestyle='--', label='Estimated Time (LoRa Sleep)')
-
-# No Sleep plot
-x_fit_NoSleep = np.linspace(0.01, 10.5, 100)
-y_fit_NoSleep = 1 / (slope_NoSleep / x_fit_NoSleep + intercept_NoSleep)
-plt.scatter(span_list_NoSleep, time_list, s=15, color='magenta', label='Data (No Sleep)')
-plt.plot(x_fit_NoSleep, y_fit_NoSleep, color='purple', linestyle='--', label='Estimated Time (No Sleep)')
+# ax = plt.gca()
+# ax.tick_params(which='minor', direction='in')
+# ax.tick_params(which='major', length=5, direction='in')
+# ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
 
 
-ax.set_xlim(0, 10.5)
-ax.set_ylim(0, 2150)
-ax.set_xlabel('Interval (min)', fontsize=12)
-ax.set_ylabel('Operation Time (min)', fontsize=12)
 
-plt.grid(True)
-plt.legend(fontsize=10, loc='center right')
-plt.tight_layout()
-plt.show()
+# # Both Sleep plot
+# x_fit_BothSleep = np.linspace(0.01, 10.5, 100)
+# y_fit_BothSleep = 1 / (slope_BothSleep / x_fit_BothSleep + intercept_BothSleep)
+# print(y_fit_BothSleep)
+# plt.scatter(intervals, total_minutes, s=15, color='blue', label='Data (Both Sleep)')
+# ax.plot(x_fit_BothSleep, y_fit_BothSleep, color='c', linestyle='--', label='Estimated Time (Both Sleep)')
+
+# # LoRa Sleep plot
+# x_fit_LoRaSleep = np.linspace(0.01, 10.5, 100)
+# y_fit_LoRaSleep = 1 / (slope_LoRaSleep / x_fit_LoRaSleep + intercept_LoRaSleep)
+# print(y_fit_LoRaSleep)
+# plt.scatter(span_list_LoRaSleep, elapsed_time_list, s=15, color='red', label='Data (LoRa Sleep)')
+# plt.plot(x_fit_LoRaSleep, y_fit_LoRaSleep, color='orange', linestyle='--', label='Estimated Time (LoRa Sleep)')
+
+# # No Sleep plot
+# x_fit_NoSleep = np.linspace(0.01, 10.5, 100)
+# y_fit_NoSleep = 1 / (slope_NoSleep / x_fit_NoSleep + intercept_NoSleep)
+# print(y_fit_NoSleep)
+# plt.scatter(span_list_NoSleep, time_list, s=15, color='magenta', label='Data (No Sleep)')
+# plt.plot(x_fit_NoSleep, y_fit_NoSleep, color='purple', linestyle='--', label='Estimated Time (No Sleep)')
+
+
+# ax.set_xlim(0, 10.5)
+# ax.set_ylim(0, 2150)
+# ax.set_xlabel('Interval (min)', fontsize=12)
+# ax.set_ylabel('Operation Time (min)', fontsize=12)
+
+# plt.grid(True)
+# plt.legend(fontsize=10, loc='center right')
+# plt.tight_layout()
+# plt.show()
